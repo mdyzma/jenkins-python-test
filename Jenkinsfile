@@ -18,6 +18,7 @@ pipeline {
     }
     post {
         always {
+            echo 'Finished'
             //bash 'conda remove --yes -n ${JOB_NAME} --all'
         }
 
