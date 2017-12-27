@@ -18,8 +18,8 @@ pipeline {
             steps {
                 sh '''pip list
                 echo "================="
-                sh which python
-                sh which pip
+                which python
+                which pip
                 '''
             }
         }
