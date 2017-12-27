@@ -7,14 +7,14 @@ pipeline {
     stages {
         stage('Build environment') {
             steps {
-                bash '''echo $PATH
+                sh '''echo $PATH
                 conda info
                 '''
             }
         }
         stage('Test environment') {
             steps {
-                bash '''echo $SHELL
+                sh '''echo $SHELL
                         which pip
                         which python
                     '''
