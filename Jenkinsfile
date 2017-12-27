@@ -1,11 +1,15 @@
 pipeline {
     agent any
 
+    environment{
+        export PATH="/var/lib/jenkins/miniconda3/bin:$PATH"
+    }
+
     stages {
         stage('Build environment') {
             steps {
                 sh '''echo $PATH
-                export PATH="/var/lib/jenkins/miniconda3/bin:$PATH"
+                echo $SHELL
                 conda info
                 '''
             }
@@ -15,6 +19,7 @@ pipeline {
                 sh '''echo $SHELL
                         which pip
                         which python
+                        conda info
                     '''
             }
         }
