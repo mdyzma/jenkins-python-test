@@ -11,6 +11,7 @@ pipeline {
                 sh '''echo $PATH
                 echo $SHELL
                 conda info
+                source /etc/profile
                 '''
             }
         }
@@ -20,6 +21,7 @@ pipeline {
                         which pip
                         which python
                         conda info
+                        source /etc/profile
                     '''
             }
         }
