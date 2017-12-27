@@ -1,18 +1,20 @@
 pipeline {
     agent any
+
+    environment{
+        source /etc/profile
+    }
     stages {
         stage('Build environment') {
             steps {
-                sh '''#!/bin/bash
-                echo $PATH
+                bash '''echo $PATH
                 conda info
                 '''
             }
         }
         stage('Test environment') {
             steps {
-                sh '''#!/bin/bash
-                        echo $SHELL
+                bash '''echo $SHELL
                         which pip
                         which python
                     '''
