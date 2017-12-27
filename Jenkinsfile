@@ -3,13 +3,13 @@ pipeline {
     stages {
         stage('Build environment') {
             steps {
-                sh 'echo P$ATH'
+                sh 'echo $PATH'
             }
         }
         stage('Test environment') {
             steps {
                 sh '''#!/bin/bash
-                        pip list
+                        echo $SHELL
                         which pip
                         which python
                     '''
