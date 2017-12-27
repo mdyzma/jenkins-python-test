@@ -8,20 +8,20 @@ pipeline {
     stages {
         stage('Build environment') {
             steps {
-                sh '''conda create --yes -n ${BUILD_TAG} python
-                    source activate ${BUILD_TAG}
-                    pip install -r requirements.txt
-                '''
+                sh  ''' conda create --yes -n ${BUILD_TAG} python
+                        source activate ${BUILD_TAG}
+                        pip install -r requirements.txt
+                    '''
             }
         }
         stage('Test environment') {
             steps {
-                sh '''source activate ${BUILD_TAG}
-                pip list
-                echo "================="
-                which python
-                which pip
-                '''
+                sh  ''' source activate ${BUILD_TAG}
+                        pip list
+                        echo "================="
+                        which python
+                        which pip
+                    '''
             }
         }
     }
