@@ -5,6 +5,7 @@ pipeline {
         stage('Build environment') {
             steps {
                 sh '''echo $PATH
+                export PATH="/var/lib/jenkins/miniconda3/bin:$PATH"
                 conda info
                 '''
             }
