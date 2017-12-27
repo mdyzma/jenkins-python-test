@@ -27,8 +27,6 @@ pipeline {
     }
     post {
         always {
-            echo 'Finished'
-            sh 'source deactivate'
             sh 'conda remove --yes -n ${BUILD_TAG} --all'
         }
 
