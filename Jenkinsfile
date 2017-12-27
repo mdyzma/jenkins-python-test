@@ -16,6 +16,7 @@ pipeline {
         }
         stage('Test environment') {
             steps {
+                echo "Testing environment"
                 sh  ''' source activate ${BUILD_TAG}
                         pip list
                         echo "================="
