@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-    environment{
-        source /etc/profile
-    }
     stages {
         stage('Build environment') {
             steps {
