@@ -1,38 +1,29 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Build environment') {
             steps {
-                echo 'Building'
+                sh '''
+                conda create --yes -n ${BUILD_TAG} python
+                source activate ${BUILD_TAG}
+                pip install -r requirements.txt --download-cache=/tmp/${JOB_NAME}
+                '''
             }
         }
-        stage('Test') {
+        stage('Test environment') {
             steps {
-                echo 'Testing'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying'
+                sh '''
+                    pip list
+                    which pip
+                    which python
+                    '''
             }
         }
     }
     post {
         always {
-            echo 'This will always run'
+            sh 'conda remove --yes -n ${BUILD_TAG} --all'
         }
-        success {
-            echo 'This will run only if successful'
-        }
-        failure {
-            echo 'This will run only if failed'
-        }
-        unstable {
-            echo 'This will run only if the run was marked as unstable'
-        }
-        changed {
-            echo 'This will run only if the state of the Pipeline has changed'
-            echo 'For example, if the Pipeline was previously failing but is now successful'
-        }
+
     }
 }
