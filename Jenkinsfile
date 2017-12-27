@@ -2,13 +2,14 @@ pipeline {
     agent any
 
     environment{
-        PATH="/var/lib/jenkins/miniconda3/bin:$PATH"
+        PATH="$PATH:/var/lib/jenkins/miniconda3/bin"
     }
 
     stages {
         stage('Build environment') {
             steps {
                 sh '''echo $PATH
+                echo $HOME
                 echo $SHELL
                 conda info
                 source /etc/profile
