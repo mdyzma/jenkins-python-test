@@ -3,11 +3,7 @@ pipeline {
     stages {
         stage('Build environment') {
             steps {
-                bash '''#!/bin/bash
-                        conda create --yes -n ${JOB_NAME} python
-                        source activate ${JOB_NAME}
-                        pip install -r requirements.txt --download-cache=/tmp/${JOB_NAME}
-                '''
+                bash 'echo P$ATH'
             }
         }
         stage('Test environment') {
@@ -22,7 +18,7 @@ pipeline {
     }
     post {
         always {
-            bash 'conda remove --yes -n ${JOB_NAME} --all'
+            //bash 'conda remove --yes -n ${JOB_NAME} --all'
         }
 
     }
