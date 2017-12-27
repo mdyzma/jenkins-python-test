@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('Build environment') {
             steps {
-                sh 'echo $PATH'
+                sh '''#!/bin/bash
+                echo $PATH'
+                conda info'''
             }
         }
         stage('Test environment') {
