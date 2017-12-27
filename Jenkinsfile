@@ -8,21 +8,15 @@ pipeline {
     stages {
         stage('Build environment') {
             steps {
-                sh '''echo $PATH
-                echo $HOME
-                echo $SHELL
-                conda info
-                source /etc/profile
+                sh '''conda create --yes -n ${JOB_NAME} python
+                    source activate ${JOB_NAME}
+                    pip install -r requirements.txt --download-cache=/tmp/${JOB_NAME}
                 '''
             }
         }
         stage('Test environment') {
             steps {
-                sh '''echo $SHELL
-                        which pip
-                        which python
-                        conda info
-                        source /etc/profile
+                sh '''pip list
                     '''
             }
         }
