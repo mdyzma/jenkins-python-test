@@ -24,15 +24,16 @@ pipeline {
             steps {
                 echo "Raw metrics"
                 sh  ''' source activate ${BUILD_TAG}
-                        radon raw --json irisvmpy/ > raw _report.json
-                        radon cc --json irisvmpy/ > cc_report.json
-                        radon mi --json irisvmpy/ > mi_report.json
-                        sloccount --duplicates --wide irisvmpy/ > sloccount.sc
+                        radon raw --json irisvmpy > raw_report.json
+                        radon cc --json irisvmpy > cc_report.json
+                        radon mi --json irisvmpy > mi_report.json
+                        sloccount --duplicates --wide irisvmpy > sloccount.sc
                         ls -la
                     '''
                 echo "Test coverage"
                 sh  ''' source activate ${BUILD_TAG}
-                        coverage run tests/test_iris.py && coverage xml
+                        python -m coverage run tests/test_iris.py
+                        python -m coverage xml
                     '''
                 echo "Error and style check"
             }
