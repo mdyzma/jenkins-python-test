@@ -8,27 +8,30 @@ pipeline {
     stages {
         stage('Build environment') {
             steps {
+                echo "Building virtualenv"
                 sh  ''' conda create --yes -n ${BUILD_TAG} python
                         source activate ${BUILD_TAG}
                         pip install -r requirements.txt
                     '''
             }
         }
-        stage('Test environment') {
+        stage('Static code metrics') {
             steps {
-                echo "Testing environment"
+                echo "Raw metrics"
                 sh  ''' source activate ${BUILD_TAG}
-                        pip list
-                        echo "================="
-                        which python
-                        which pip
+                        radon raw --json irisvmpy/
+                        radon cc --json irisvmpy/
+                        radon mi --json irisvmpy/
                     '''
+                echo "Test coverage"
+                echo "Error and style check"
             }
         }
     }
     post {
         always {
             sh 'conda remove --yes -n ${BUILD_TAG} --all'
+
         }
 
     }
