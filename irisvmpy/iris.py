@@ -31,13 +31,13 @@ def cli(petal_lenght, petal_width, sepal_lenght, sepal_width):
 
 	click.echo("\nCalculating result...")
 	time.sleep(1)
+	# click.echo()
+	# click.echo("Your Petal Lenght is: {}".format(petal_lenght))
+	# click.echo("Your Petal Width  is: {}".format(petal_width))
+	# click.echo("Your Sepal Lenght is: {}".format(sepal_lenght))
+	# click.echo("Your Sepal Width  is: {}".format(sepal_width))
 	click.echo()
-	click.echo("Your Petal Lenght is: {}".format(petal_lenght))
-	click.echo("Your Petal Width  is: {}".format(petal_width))
-	click.echo("Your Sepal Lenght is: {}".format(sepal_lenght))
-	click.echo("Your Sepal Width  is: {}".format(sepal_width))
-	click.echo()
-	click.echo("Your flower seems to be fine representant of:")
+	click.echo("Your flower seems to be fine example of:")
 	click.secho("{}".format(species), fg='green', bold=True)
 # (Petal Length , Petal Width , Sepal Length , Sepal width
 
