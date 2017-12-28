@@ -27,9 +27,13 @@ pipeline {
                         radon raw --json irisvmpy/ > raw _report.json
                         radon cc --json irisvmpy/ > cc_report.json
                         radon mi --json irisvmpy/ > mi_report.json
-                        sloccount --duplicates --wide --details path-to-code/ > sloccount.sc
+                        sloccount --duplicates --wide --irisvmpy/ > sloccount.sc
+                        ls -la
                     '''
                 echo "Test coverage"
+                sh  ''' source activate ${BUILD_TAG}
+                        coverage run tests/test_iris.py && coverage xml
+                    '''
                 echo "Error and style check"
             }
         }
@@ -41,6 +45,7 @@ pipeline {
         }
         success {
             sloccountPublish encoding: '', pattern: ''
+            junit "coverage.xml"
         }
     }
 }
