@@ -27,7 +27,7 @@ pipeline {
                         radon raw --json irisvmpy/ > raw _report.json
                         radon cc --json irisvmpy/ > cc_report.json
                         radon mi --json irisvmpy/ > mi_report.json
-                        sloccount --duplicates --wide --irisvmpy/ > sloccount.sc
+                        sloccount --duplicates --wide irisvmpy/ > sloccount.sc
                         ls -la
                     '''
                 echo "Test coverage"
