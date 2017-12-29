@@ -32,7 +32,7 @@ pipeline {
                     '''
                 echo "Test coverage"
                 sh  ''' source activate ${BUILD_TAG}
-                        coverage run tests/test_iris.py 1 1 2 3
+                        coverage run irisvmpy/iris.py 1 1 2 3
                         python -m coverage xml
                         ls -la
                     '''
