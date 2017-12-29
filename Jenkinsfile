@@ -46,7 +46,7 @@ pipeline {
         success {
         sh 'ls -las'
             sloccountPublish encoding: '', pattern: ''
-            junit "./coverage.xml"
+            junit "coverage.xml"
         }
     }
 }
