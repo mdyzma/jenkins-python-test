@@ -9,6 +9,10 @@ pipeline {
         PATH="$PATH:/var/lib/jenkins/miniconda3/bin"
     }
 
+    triggers {
+        pollSCM('H */4 * * 1-5')
+    }
+
     stages {
         stage('Build environment') {
             steps {
@@ -32,9 +36,14 @@ pipeline {
                 echo "Test coverage"
                 sh  ''' source activate ${BUILD_TAG}
                         coverage run irisvmpy/iris.py 1 1 2 3
-                        python -m coverage xml
+                        python -m coverage xml o reports/coverage.xml
                     '''
                 echo "Style check"
+            }
+            post {
+                always {
+                    archive '*/reports/*'
+                }
             }
         }
     }
@@ -46,7 +55,7 @@ pipeline {
         success {
         sh 'ls -las'
             sloccountPublish encoding: '', pattern: ''
-            junit "coverage.xml"
+            junit "*/reports/*.xml"
         }
     }
 }
