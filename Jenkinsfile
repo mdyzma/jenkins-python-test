@@ -47,7 +47,7 @@ pipeline {
         }
         success {
             sloccountPublish encoding: '', pattern: ''
-            junit "coverage.xml"
+            junit "./coverage.xml"
         }
     }
 }
