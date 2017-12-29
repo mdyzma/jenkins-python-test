@@ -32,10 +32,11 @@ pipeline {
                     '''
                 echo "Test coverage"
                 sh  ''' source activate ${BUILD_TAG}
-                        python -m coverage run tests/test_iris.py
+                        coverage run tests/test_iris.py 1 1 2 3
                         python -m coverage xml
+                        ls -la
                     '''
-                echo "Error and style check"
+                echo "Style check"
             }
         }
     }
