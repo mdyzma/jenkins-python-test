@@ -34,9 +34,9 @@ pipeline {
                 sh  ''' source activate ${BUILD_TAG}
                         coverage run irisvmpy/iris.py 1 1 2 3
                         python -m coverage xml
-                        ls -la
                     '''
                 echo "Style check"
+                sh 'ls -la'
             }
         }
     }
