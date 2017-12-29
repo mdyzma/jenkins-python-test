@@ -28,7 +28,6 @@ pipeline {
                         radon cc --json irisvmpy > cc_report.json
                         radon mi --json irisvmpy > mi_report.json
                         sloccount --duplicates --wide irisvmpy > sloccount.sc
-                        ls -la
                     '''
                 echo "Test coverage"
                 sh  ''' source activate ${BUILD_TAG}
@@ -36,7 +35,6 @@ pipeline {
                         python -m coverage xml
                     '''
                 echo "Style check"
-                sh 'ls -la'
             }
         }
     }
@@ -46,6 +44,7 @@ pipeline {
             sh 'conda remove --yes -n ${BUILD_TAG} --all'
         }
         success {
+        sh 'ls -las'
             sloccountPublish encoding: '', pattern: ''
             junit "./coverage.xml"
         }
