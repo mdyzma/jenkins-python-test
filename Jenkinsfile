@@ -36,14 +36,9 @@ pipeline {
                 echo "Test coverage"
                 sh  ''' source activate ${BUILD_TAG}
                         coverage run irisvmpy/iris.py 1 1 2 3
-                        python -m coverage xml -o reports/coverage.xml
+                        python -m coverage xml -o ./reports/coverage.xml
                     '''
                 echo "Style check"
-            }
-            post {
-                always {
-                    archive '*/reports/*'
-                }
             }
         }
     }
@@ -53,8 +48,9 @@ pipeline {
             sh 'conda remove --yes -n ${BUILD_TAG} --all'
         }
         success {
-        sh 'ls -las'
+            sh 'ls -las'
             sloccountPublish encoding: '', pattern: ''
+            archive '*/reports/*'
             junit "*/reports/*.xml"
         }
     }
