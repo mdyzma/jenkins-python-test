@@ -51,10 +51,7 @@ pipeline {
             sh 'conda remove --yes -n ${BUILD_TAG} --all'
         }
         success {
-            sh 'ls -las'
             sloccountPublish encoding: '', pattern: ''
-            //archive '*/reports/*'
-            junit "*/reports/*.xml"
         }
     }
 }
