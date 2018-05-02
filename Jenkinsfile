@@ -1,16 +1,19 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('*/5 * * * 1-5')
+    }
+
     options {
-        buildDiscarder(logRotator(numToKeepStr:'10'))
+        //skipDefaultCheckout(true)
+        // Keep the 10 most recent builds
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timestamps()
     }
 
     environment{
         PATH="$PATH:/var/lib/jenkins/miniconda3/bin"
-    }
-
-    triggers {
-        pollSCM('H */4 * * 1-5')
     }
 
     stages {
@@ -50,7 +53,7 @@ pipeline {
         success {
             sh 'ls -las'
             sloccountPublish encoding: '', pattern: ''
-            archive '*/reports/*'
+            //archive '*/reports/*'
             junit "*/reports/*.xml"
         }
     }
