@@ -97,7 +97,7 @@ pipeline {
         }
 
         stage("Deploy to PyPI") {
-            }
+
             steps {
                 sh """python setup.py register -r pypitest
                       python setup.py bdist_wheel upload -r pypitest
