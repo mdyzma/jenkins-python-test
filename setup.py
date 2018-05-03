@@ -1,10 +1,10 @@
-import codecs
-try:
-    codecs.lookup('mbcs')
-except LookupError:
-    ascii = codecs.lookup('ascii')
-    func = lambda name, enc=ascii: {True: enc}.get(name=='mbcs')
-    codecs.register(func)
+# import codecs
+# try:
+#     codecs.lookup('mbcs')
+# except LookupError:
+#     ascii = codecs.lookup('ascii')
+#     func = lambda name, enc=ascii: {True: enc}.get(name=='mbcs')
+#     codecs.register(func)
 
 from setuptools import setup, find_packages
 

@@ -105,15 +105,12 @@ pipeline {
             }
         }
 
-        stage("Deploy to PyPI") {
-            steps {
-                sh """python setup.py register -r pypitest
-                      python setup.py bdist_wheel upload -r pypitest
-                      //python setup.py register -r pypi
-                      //python setup.py bdist_wheel upload -r pypi
-                """
-            }
-        }
+        // stage("Deploy to PyPI") {
+        //     steps {
+        //         sh """twine upload dist/*
+        //         """
+        //     }
+        // }
     }
 
     post {
