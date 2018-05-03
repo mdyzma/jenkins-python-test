@@ -1,0 +1,16 @@
+Feature: irissvmpy performance # tests/features/iris.feature:1
+
+  Scenario: run main program loop    # tests/features/iris.feature:3
+    Given we have irisvmpy installed # tests/features/steps/iris_steps.py:3
+      Traceback (most recent call last):
+        File "/usr/local/lib/python2.7/dist-packages/behave/model.py", line 1456, in run
+          match.run(runner.context)
+        File "/usr/local/lib/python2.7/dist-packages/behave/model.py", line 1903, in run
+          self.func(context, *args, **kwargs)
+        File "tests/features/steps/iris_steps.py", line 5, in step_impl
+          raise NotImplementedError(u'STEP: Given we have irisvmpy installed')
+      NotImplementedError: STEP: Given we have irisvmpy installed
+
+    When we run program              # None
+    Then Something will be displayed # None
+

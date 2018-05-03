@@ -18,7 +18,7 @@ X = iris.data[:, :2]  # we only take the first two features. We could
 y = iris.target
 
 
-svc = svm.SVC(kernel='linear', C=1, gamma='auto').fit(X, y)
+svc = svm.SVC(kernel='rbf', C=1, gamma=0.7).fit(X, y)
 
 dimm_names = ['Petal Length', 'Petal Width', 'Sepal Length', 'Sepal Width']
 

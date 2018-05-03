@@ -50,7 +50,7 @@ pipeline {
                     '''
                 echo "Style check"
                 sh  ''' source activate ${BUILD_TAG}
-                        pylint --disable=C irisvmpy || true
+                        pylint irisvmpy || true
                     '''
             }
         }
@@ -58,13 +58,15 @@ pipeline {
         stage('Unit tests') {
             steps {
                 sh  ''' source activate ${BUILD_TAG}
-                        python -m pytest --verbose --junit-xml test-reports/results.xml
+                        python -m pytest --verbose --junit-xml reports/unit_tests.xml
                     '''
             }
             post {
                 always {
                     // Archive unit tests for the future
-                    junit allowEmptyResults: true, testResults: 'test-reports/results.xml'
+                    junit (allowEmptyResults: true,
+                          testResults: './reports/unit_tests.xml',
+                          fingerprint: true)
                 }
             }
         }
@@ -72,8 +74,17 @@ pipeline {
         stage('Acceptance tests') {
             steps {
                 sh  ''' source activate ${BUILD_TAG}
-                        behave || true
+                        behave -f=formatters.cucumber_json:PrettyCucumberJSONFormatter -o ./reports/acceptance.json
                     '''
+            }
+            post {
+                always {
+                    cucumber (buildStatus: 'UNSTABLE',
+                    fileIncludePattern: '**/*.json',
+                    jsonReportDirectory: './reports/',
+                    parallelTesting: true,
+                    sortingMethod: 'ALPHABETICAL')
+                }
             }
         }
 
@@ -91,20 +102,21 @@ pipeline {
             post {
                 always {
                     // Archive unit tests for the future
-                    archiveArtifacts allowEmptyArchive: true, artifacts: 'dist/*whl', fingerprint: true
+                    archiveArtifacts (allowEmptyArchive: true,
+                                     artifacts: 'dist/*whl',
+                                     fingerprint: true)
                 }
             }
         }
 
         stage("Deploy to PyPI") {
-
+            }
             steps {
-                echo "Deploying to pypi"
-                //sh """python setup.py register -r pypitest
-                //      python setup.py bdist_wheel upload -r pypitest
-                //      python setup.py register -r pypi
-                //      python setup.py bdist_wheel upload -r pypi
-                //"""
+                sh """python setup.py register -r pypitest
+                      python setup.py bdist_wheel upload -r pypitest
+                      python setup.py register -r pypi
+                      python setup.py bdist_wheel upload -r pypi
+                """
             }
         }
     }
@@ -114,7 +126,12 @@ pipeline {
             sh 'conda remove --yes -n ${BUILD_TAG} --all'
         }
         failure {
-            echo "send e-mail when failed"
+            emailext (
+                subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                         <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            )
         }
     }
 }

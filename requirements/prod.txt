@@ -1,14 +1,7 @@
 
 Click==6.7
 
-
-# Testing
-pytest==3.3.1
-pytest-runner==3.0
-pytest-cov==2.5.1
-behave==1.2.5
-
 # Data science tools
-numpy==1.13.3
-scipy==1.0.0
+numpy==1.14.3
+scipy==1.0.1
 scikit-learn==0.19.1
