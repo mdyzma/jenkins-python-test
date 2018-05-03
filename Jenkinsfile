@@ -77,7 +77,7 @@ pipeline {
             }
             post {
                 always {
-                    cucumber (buildStatus: 'UNSTABLE',
+                    cucumber (buildStatus: 'SUCCESS',
                     fileIncludePattern: '**/*.json',
                     jsonReportDirectory: './reports/',
                     parallelTesting: true,
