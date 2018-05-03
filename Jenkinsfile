@@ -6,17 +6,24 @@ pipeline {
     }
 
     options {
-        //skipDefaultCheckout(true)
+        skipDefaultCheckout(true)
         // Keep the 10 most recent builds
         buildDiscarder(logRotator(numToKeepStr: '10'))
         timestamps()
     }
 
-    environment{
-        PATH="$PATH:/var/lib/jenkins/miniconda3/bin"
+    environment {
+      PATH="/var/lib/jenkins/miniconda3/bin:$PATH"
     }
 
     stages {
+
+        stage ("Code pull"){
+            steps{
+                checkout scm
+            }
+        }
+
         stage('Build environment') {
             steps {
                 echo "Building virtualenv"
@@ -42,6 +49,61 @@ pipeline {
                         python -m coverage xml -o ./reports/coverage.xml
                     '''
                 echo "Style check"
+                sh  ''' source activate ${BUILD_TAG}
+                        pylint irisvmpy
+                    '''
+            }
+        }
+
+        stage('Unit tests') {
+            steps {
+                sh  ''' source activate ${BUILD_TAG}
+                        python -m pytest --verbose --junit-xml test-reports/results.xml
+                    '''
+            }
+            post {
+                always {
+                    // Archive unit tests for the future
+                    junit allowEmptyResults: true, testResults: 'test-reports/results.xml', fingerprint: true
+                }
+            }
+        }
+
+        stage('Acceptance tests') {
+            steps {
+                sh  ''' source activate ${BUILD_TAG}
+                        behave
+                    '''
+            }
+        }
+
+        stage('Build package') {
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                sh  ''' source activate ${BUILD_TAG}
+                        python setup.py bdist_wheel
+                    '''
+            }
+            post {
+                always {
+                    // Archive unit tests for the future
+                    archiveArtifacts allowEmptyArchive: true, artifacts: 'dist/*whl', fingerprint: true
+                }
+            }
+        }
+
+        stage("Deploy to PyPI") {
+            }
+            steps {
+                sh """python setup.py register -r pypitest
+                      python setup.py bdist_wheel upload -r pypitest
+                      python setup.py register -r pypi
+                      python setup.py bdist_wheel upload -r pypi
+                """
             }
         }
     }
@@ -50,8 +112,8 @@ pipeline {
         always {
             sh 'conda remove --yes -n ${BUILD_TAG} --all'
         }
-        success {
-            sloccountPublish encoding: '', pattern: ''
+        failure {
+            echo "send e-mail when failed"
         }
     }
 }
