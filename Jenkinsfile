@@ -46,7 +46,7 @@ pipeline {
                 echo "Test coverage"
                 sh  ''' source activate ${BUILD_TAG}
                         coverage run irisvmpy/iris.py 1 1 2 3
-                        python -m coverage xml -o ./reports/coverage.xml
+                        python -m coverage xml -o reports/coverage.xml
                     '''
                 echo "Style check"
                 sh  ''' source activate ${BUILD_TAG}
@@ -55,19 +55,23 @@ pipeline {
             }
             post{
                 always{
-                    step([$class: 'CoberturaPublisher',
-                                   autoUpdateHealth: false,
-                                   autoUpdateStability: false,
-                                   coberturaReportFile: './reports/coverage.xml',
-                                   failUnhealthy: false,
-                                   failUnstable: false,
-                                   maxNumberOfBuilds: 10,
-                                   onlyStable: false,
-                                   sourceEncoding: 'ASCII',
-                                   zoomCoverageChart: false])
+                    cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'reports/coverage.xml', failNoReports: false, failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 10, onlyStable: false, sourceEncoding: 'ASCII'
+                    // step([$class: 'CoberturaPublisher',
+                    //                autoUpdateHealth: false,
+                    //                autoUpdateStability: false,
+                    //                coberturaReportFile: 'reports/coverage.xml',
+                    //                failNoReports: false,
+                    //                failUnhealthy: false,
+                    //                failUnstable: false,
+                    //                maxNumberOfBuilds: 10,
+                    //                onlyStable: false,
+                    //                sourceEncoding: 'ASCII',
+                    //                zoomCoverageChart: false])
                 }
             }
         }
+
+
 
         stage('Unit tests') {
             steps {
