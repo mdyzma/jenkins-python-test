@@ -64,7 +64,7 @@ pipeline {
             post {
                 always {
                     // Archive unit tests for the future
-                    junit allowEmptyResults: true, testResults: './reports/unit_tests.xml'
+                    junit allowEmptyResults: true, testResults: 'reports/unit_tests.xml'
                 }
             }
         }
@@ -72,7 +72,7 @@ pipeline {
         stage('Acceptance tests') {
             steps {
                 sh  ''' source activate ${BUILD_TAG}
-                        behave -f=formatters.cucumber_json:PrettyCucumberJSONFormatter -o ./reports/acceptance.json
+                        behave -f=formatters.cucumber_json:PrettyCucumberJSONFormatter -o ./reports/acceptance.json || true
                     '''
             }
             post {
@@ -100,9 +100,7 @@ pipeline {
             post {
                 always {
                     // Archive unit tests for the future
-                    archiveArtifacts (allowEmptyArchive: true,
-                                     artifacts: 'dist/*whl',
-                                     fingerprint: true)
+                    archiveArtifacts allowEmptyArchive: true, artifacts: 'dist/*whl', fingerprint: true
                 }
             }
         }
