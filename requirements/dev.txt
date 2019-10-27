@@ -8,11 +8,12 @@ scikit-learn
 # pyflakes==1.6.0
 # Flake8==3.5.0
 pylint==1.8.1
-Radon==2.1.1
 coverage==4.4.2
 
 # Testing
 pytest==3.5.1
 pytest-runner==4.2
 pytest-cov==2.5.1
-behave==1.2.6
+pip:
+  behave==1.2.6
+  Radon==2.1.1
