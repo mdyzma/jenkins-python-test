@@ -1,7 +1,7 @@
 dependencies:
-  - pip=19.2.2=py37_0
+  - pip=19.2.2
   - python=3.7.4
-  - numpy=
+  - numpy
   - scipy
   - scikit-learn
   - pylint==1.8.1
