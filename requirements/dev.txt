@@ -1,4 +1,8 @@
--r prod.txt
+# -r prod.txt
+
+numpy
+scipy
+scikit-learn
 
 # Static code metrics
 # pyflakes==1.6.0
