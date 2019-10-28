@@ -1,3 +1,4 @@
 radon==4.0.0
 behave==1.2.6
+click
 #setuptools-sloccount
