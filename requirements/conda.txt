@@ -6,7 +6,6 @@ coverage==4.4.2
 pytest==3.5.1
 pytest-runner==4.2
 pytest-cov==2.5.1
-radon==4.0.0
-behave==1.2.6
+
 
   
