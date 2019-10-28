@@ -1,7 +1,0 @@
-
-Click==6.7
-
-# Data science tools
-numpy
-scipy
-scikit-learn
