@@ -29,7 +29,9 @@ pipeline {
                 echo "Building virtualenv"
                 sh  ''' conda create --yes -n ${BUILD_TAG} python=3.6
                         source activate ${BUILD_TAG}
-                        conda install --file requirements/dev.txt
+                        conda install --file requirements/conda.txt
+                        pip install -r requirements/pip.txt
+                        
                     '''
             }
         }
